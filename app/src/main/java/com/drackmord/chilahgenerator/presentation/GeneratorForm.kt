@@ -11,11 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.drackmord.chilahgenerator.ExcelGenerator
 import com.drackmord.chilahgenerator.R
 import com.drackmord.chilahgenerator.presentation.model.FormModel
 import com.drackmord.chilahgenerator.presentation.model.LeftRight
@@ -23,6 +25,7 @@ import com.drackmord.chilahgenerator.presentation.model.LeftRight
 @Composable
 fun GeneratorForm() {
     var formState by remember { mutableStateOf(FormModel()) }
+    val context = LocalContext.current
 
     with(formState) {
         Column(
@@ -142,7 +145,7 @@ fun GeneratorForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(Constants.rowHeight),
-                    onClick = { /*TODO*/ }) {
+                    onClick = { ExcelGenerator.generate(formState, context) }) {
                     Text(text = "Generate Excel")
                 }
             }
