@@ -17,119 +17,134 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.drackmord.chilahgenerator.R
+import com.drackmord.chilahgenerator.presentation.model.FormModel
+import com.drackmord.chilahgenerator.presentation.model.LeftRight
 
 @Composable
 fun GeneratorForm() {
-    var clientName by remember { mutableStateOf("") }
-    var weight by remember { mutableStateOf("") }
-    var height by remember { mutableStateOf("") }
-    var fatPercent by remember { mutableStateOf("") }
-    var visceralFat by remember { mutableStateOf("") }
-    var posture by remember { mutableStateOf(0) }
+    var formState by remember { mutableStateOf(FormModel()) }
 
-    var feetCaveIn by remember { mutableStateOf(LeftRight(left = false, right = false)) }
-    var squatKneeCaveIn by remember { mutableStateOf(LeftRight(left = false, right = false)) }
-    var butwink by remember { mutableStateOf(false) }
-    var hyperextension by remember { mutableStateOf(false) }
-    var forwardLean by remember { mutableStateOf(false) }
+    with(formState) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Section {
+                TitleEntry(
+                    placeHolder = "Client name",
+                    value = clientName,
+                    onValueChange = { formState = copy(clientName = it) })
+                NumericEntry(
+                    name = "Weight",
+                    value = weight,
+                    onValueChange = { formState = copy(weight = it) })
+                NumericEntry(
+                    name = "Height",
+                    value = height,
+                    onValueChange = { formState = copy(height = it) })
+                NumericEntry(
+                    name = "Fat Percentage",
+                    value = fatPercent,
+                    onValueChange = { formState = copy(fatPercent = it) })
+                NumericEntry(
+                    name = "Visceral Fat",
+                    value = visceralFat,
+                    onValueChange = { formState = copy(visceralFat = it) })
+                PosturesEntry(
+                    selected = posture,
+                    onValueChange = { formState = copy(posture = it) })
+            }
 
-    var stepUpKneeCaveIn by remember { mutableStateOf(LeftRight(left = false, right = false)) }
-    var hipShift by remember { mutableStateOf(LeftRight(left = false, right = false)) }
+            Section(title = "Overhead Squat") {
+                LeftRightCheckboxEntry(
+                    name = "Feet Cave in",
+                    checked = feetCaveIn,
+                    onCheckedChange = { formState = copy(feetCaveIn = it) }
+                )
+                LeftRightCheckboxEntry(
+                    name = "Knee Cave in",
+                    checked = squatKneeCaveIn,
+                    onCheckedChange = { formState = copy(squatKneeCaveIn = it) }
+                )
+                CheckboxEntry(
+                    name = "Butwink",
+                    checked = butwink,
+                    onCheckedChange = { formState = copy(butwink = it) })
+                CheckboxEntry(
+                    name = "Hyperextension",
+                    checked = hyperextension,
+                    onCheckedChange = { formState = copy(hyperextension = it) })
+                CheckboxEntry(
+                    name = "Forward Lean",
+                    checked = forwardLean,
+                    onCheckedChange = { formState = copy(forwardLean = it) })
+            }
 
-    var hipHinge by remember { mutableStateOf(false) }
-    var wallSlide by remember { mutableStateOf(false) }
+            Section(title = "Step up") {
+                LeftRightCheckboxEntry(
+                    name = "Knee Cave in",
+                    checked = stepUpKneeCaveIn,
+                    onCheckedChange = { formState = copy(stepUpKneeCaveIn = it) }
+                )
+                LeftRightCheckboxEntry(
+                    name = "Hip shift",
+                    checked = hipShift,
+                    onCheckedChange = { formState = copy(hipShift = it) }
+                )
+            }
 
-    var pushShrugged by remember { mutableStateOf(LeftRight(left = false, right = false)) }
-    var pushRetraction by remember { mutableStateOf(false) }
-    var pushHyperextension by remember { mutableStateOf(false) }
+            Section {
+                CheckboxEntry(
+                    name = "Hip Hinge",
+                    checked = hipHinge,
+                    onCheckedChange = { formState = copy(hipHinge = it) })
+                CheckboxEntry(
+                    name = "Wall Slide",
+                    checked = wallSlide,
+                    onCheckedChange = { formState = copy(wallSlide = it) })
+            }
 
-    var pullShrugged by remember { mutableStateOf(LeftRight(left = false, right = false)) }
-    var pullRetraction by remember { mutableStateOf(false) }
-    var pullHyperextension by remember { mutableStateOf(false) }
+            Section(title = "Push") {
+                LeftRightCheckboxEntry(
+                    name = "Shrugged",
+                    checked = pushShrugged,
+                    onCheckedChange = { formState = copy(pushShrugged = it) }
+                )
+                CheckboxEntry(
+                    name = "Retraction",
+                    checked = pushRetraction,
+                    onCheckedChange = { formState = copy(pushRetraction = it) })
+                CheckboxEntry(
+                    name = "Hyperextension",
+                    checked = pushHyperextension,
+                    onCheckedChange = { formState = copy(pushHyperextension = it) })
+            }
 
+            Section(title = "Pull") {
+                LeftRightCheckboxEntry(
+                    name = "Shrugged",
+                    checked = pullShrugged,
+                    onCheckedChange = { formState = copy(pullShrugged = it) }
+                )
+                CheckboxEntry(
+                    name = "Retraction",
+                    checked = pullRetraction,
+                    onCheckedChange = { formState = copy(pullRetraction = it) })
+                CheckboxEntry(
+                    name = "Hyperextension",
+                    checked = pullHyperextension,
+                    onCheckedChange = { formState = copy(pullHyperextension = it) })
+            }
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState())) {
-        Section {
-            TitleEntry(
-                placeHolder = "Client name",
-                value = clientName,
-                onValueChange = { clientName = it })
-            NumericEntry(name = "Weight", value = weight, onValueChange = { weight = it })
-            NumericEntry(name = "Height", value = height, onValueChange = { height = it })
-            NumericEntry(
-                name = "Fat Percentage",
-                value = fatPercent,
-                onValueChange = { fatPercent = it })
-            NumericEntry(
-                name = "Visceral Fat",
-                value = visceralFat,
-                onValueChange = { visceralFat = it })
-            PosturesEntry(
-                selected = posture,
-                onValueChange = { posture = it })
-        }
-
-        Section(title = "Overhead Squat") {
-            LeftRightCheckboxEntry(
-                name = "Feet Cave in",
-                checked = feetCaveIn,
-                onCheckedChange = { feetCaveIn = it }
-            )
-            LeftRightCheckboxEntry(
-                name = "Knee Cave in",
-                checked = squatKneeCaveIn,
-                onCheckedChange = { squatKneeCaveIn = it }
-            )
-            CheckboxEntry(name = "Butwink", checked = butwink, onCheckedChange = { butwink = it} )
-            CheckboxEntry(name = "Hyperextension", checked = hyperextension, onCheckedChange = { hyperextension = it} )
-            CheckboxEntry(name = "Forward Lean", checked = forwardLean, onCheckedChange = { forwardLean = it} )
-        }
-
-        Section(title = "Step up") {
-            LeftRightCheckboxEntry(
-                name = "Knee Cave in",
-                checked = stepUpKneeCaveIn,
-                onCheckedChange = { stepUpKneeCaveIn = it }
-            )
-            LeftRightCheckboxEntry(
-                name = "Hip shift",
-                checked = hipShift,
-                onCheckedChange = { hipShift = it }
-            )
-        }
-
-        Section {
-            CheckboxEntry(name = "Hip Hinge", checked = hipHinge, onCheckedChange = { hipHinge = it} )
-            CheckboxEntry(name = "Wall Slide", checked = wallSlide, onCheckedChange = { wallSlide = it} )
-        }
-
-        Section(title = "Push") {
-            LeftRightCheckboxEntry(
-                name = "Shrugged",
-                checked = pushShrugged,
-                onCheckedChange = { pushShrugged = it }
-            )
-            CheckboxEntry(name = "Retraction", checked = pushRetraction, onCheckedChange = { pushRetraction = it} )
-            CheckboxEntry(name = "Hyperextension", checked = pushHyperextension, onCheckedChange = { pushHyperextension = it} )
-        }
-
-        Section(title = "Pull") {
-            LeftRightCheckboxEntry(
-                name = "Shrugged",
-                checked = pullShrugged,
-                onCheckedChange = { pullShrugged = it }
-            )
-            CheckboxEntry(name = "Retraction", checked = pullRetraction, onCheckedChange = { pullRetraction = it} )
-            CheckboxEntry(name = "Hyperextension", checked = pullHyperextension, onCheckedChange = { pullHyperextension = it} )
-        }
-
-        Box(modifier = Modifier.padding(15.dp)) {
-            Button(
-                modifier = Modifier.fillMaxWidth().height(Constants.rowHeight),
-                onClick = { /*TODO*/ }) {
-                Text(text = "Generate Excel")
+            Box(modifier = Modifier.padding(15.dp)) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(Constants.rowHeight),
+                    onClick = { /*TODO*/ }) {
+                    Text(text = "Generate Excel")
+                }
             }
         }
     }
@@ -137,9 +152,11 @@ fun GeneratorForm() {
 
 @Composable
 fun Section(title: String? = null, content: @Composable () -> Unit) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(15.dp)) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp)
+    ) {
         Column {
             if (title != null) {
                 Text(text = title)
@@ -223,9 +240,19 @@ fun LeftRightCheckboxEntry(
     onCheckedChange: (LeftRight) -> Unit
 ) {
     RowEntry(name = name) {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround) {
-            LabelledCheckbox(label = "Left", checked = checked.left, onCheckedChange = { onCheckedChange(checked.copy(left = it)) })
-            LabelledCheckbox(label = "Right", checked = checked.right, onCheckedChange = { onCheckedChange(checked.copy(right = it)) })
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            LabelledCheckbox(
+                label = "Left",
+                checked = checked.left,
+                onCheckedChange = { onCheckedChange(checked.copy(left = it)) })
+            LabelledCheckbox(
+                label = "Right",
+                checked = checked.right,
+                onCheckedChange = { onCheckedChange(checked.copy(right = it)) })
         }
     }
 }
@@ -246,11 +273,6 @@ fun CheckboxEntry(name: String, checked: Boolean, onCheckedChange: (Boolean) -> 
         }
     }
 }
-
-data class LeftRight(
-    val left: Boolean,
-    val right: Boolean
-)
 
 object Constants {
     val rowHeight = 50.dp
