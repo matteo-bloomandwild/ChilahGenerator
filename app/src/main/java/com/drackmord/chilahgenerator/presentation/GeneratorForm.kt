@@ -17,7 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.drackmord.chilahgenerator.ExcelGenerator
+import com.drackmord.chilahgenerator.SheetGenerator
 import com.drackmord.chilahgenerator.R
 import com.drackmord.chilahgenerator.presentation.model.FormModel
 import com.drackmord.chilahgenerator.presentation.model.LeftRight
@@ -145,7 +145,7 @@ fun GeneratorForm() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(Constants.rowHeight),
-                    onClick = { ExcelGenerator.generate(formState, context) }) {
+                    onClick = { SheetGenerator.generate(formState, context) }) {
                     Text(text = "Generate Excel")
                 }
             }
@@ -280,10 +280,4 @@ fun CheckboxEntry(name: String, checked: Boolean, onCheckedChange: (Boolean) -> 
 object Constants {
     val rowHeight = 50.dp
     const val titleWidth = 0.5f
-    val postures = listOf(
-        "Ideal alignment",
-        "Kyphotic-lordotic posture",
-        "Flat-back posture",
-        "Sway-back posture"
-    )
 }
